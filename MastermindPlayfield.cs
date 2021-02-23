@@ -180,37 +180,6 @@ public class Playfield : MonoBehaviour
         }
     }
 
-    void handleGameMode()
-    {
-        if (selectedMode != currentMode)
-        {
-            if (currentMode == 5)
-            {
-                if (gameState == game.NotStarted) { ToggleCurrentMode(); } else { PanelsChangeToEasy.SetActive(true); }
-            }
-
-            else if (currentMode == 4 && isMasterModeUnlocked)
-            {
-                if (gameState == game.NotStarted) { ToggleCurrentMode(); } else { PanelsChangeToMaster.SetActive(true); }
-            }
-
-            else if (currentMode == 4 && !isMasterModeUnlocked)
-            {
-                PanelsBuyMaster.SetActive(true);
-                if (diamonds < 250)
-                {
-                    PanelsBuyMaster.transform.Find("YesNo").Find("Yes").GetComponent<Button>().interactable = false;
-                }
-            }
-        }
-        else
-        {
-            PanelsChangeToEasy.SetActive(false);
-            PanelsChangeToMaster.SetActive(false);
-            PanelsBuyMaster.SetActive(false);
-        }
-    }
-
     DateTime chestRefillTime()
     {
         return DateTime.FromBinary(Convert.ToInt64(PlayerPrefs.GetString("waitForRefill")));
@@ -291,13 +260,11 @@ public class Playfield : MonoBehaviour
             setSlotButtons(true);
         }
 
-        else
+        if (gameState!=game.Won)
         {
-            if (gameState!=game.Won)
-            {
-                gameState = game.Over;
-            }
+            gameState = game.Over;
         }
+       
     }
 
 
